@@ -117,8 +117,6 @@ all_trips_v2%>%
   arrange(usertype,weekday)%>%
   ggplot(aes(x=weekday,y=average_duration,fill=usertype))+geom_col(position = "dodge")
 
-#view the table
-view(all_trips_v2)
 
   
 
