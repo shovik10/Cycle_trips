@@ -1,0 +1,54 @@
+d1<-read.csv("202004-divvy-tripdata.csv.csv")
+d2<-read.csv("202005-divvy-tripdata.csv.csv")
+colnames(d1)
+colnames(d2)
+
+(d1<-rename(d1,
+           ride_id=trip_id,
+           rideable_type = bikeid,
+           started_at=start_time,
+           ended_at=end_time,
+           start_station_name=from_station_name,
+           start_station_id=from_station_id,
+           end_station_name=to_station_name,
+           end_station_id=to_station_id,
+           member_casual=usertype))
+
+colnames(d1)
+(d2<-rename(d2,
+            trip_id=ride_id,
+            bikeid=rideable_type,
+            start_time=started_at,
+            end_time=ended_at,
+            from_station_name=start_station_name,
+            from_station_id=start_station_id,
+            to_station_name=end_station_name,
+            to_station_id=end_station_id,
+            usertype=member_casual))
+
+colnames(d2)
+View(d2)
+
+str(d1)
+str(d2)
+
+all_trips<-bind_rows(d1,d2)
+
+View(all_trips)
+all_trips<-all_trips%>% select(-c(start_lat,end_lat,start_lng,end_lng))
+
+colnames(all_trips)
+nrow(all_trips)
+dim(all_trips)
+head(all_trips)
+str(all_trips)
+summary(all_trips)
+
+all_trips$date<-as.Date(all_trips$start_time)
+
+all_trips$day<-day(all_trips$date)
+
+all_trips$weekday<-weekday(all_trips$date,labels= TRUE)
+library(lubridate)
+
+all_trips$weekday<-wday(all_trips$date)
